@@ -16,13 +16,14 @@ namespace AX.EasyHUD
         private Transform _camera;
         private Transform _audioListener;
         private Vector3 userOffsetVector3;
-        private Quaternion userOffsetQuaternion;
+        [SerializeField]
+        private Quaternion userOffsetQuaternion = Quaternion.identity;
 
         [SerializeField]
         private Vector3 offsetVector3;
 
         [SerializeField]
-        private Quaternion offsetQuaternion;
+        private Quaternion offsetQuaternion = Quaternion.identity;
 
         [SerializeField]
         private Transform hud;
@@ -35,6 +36,9 @@ namespace AX.EasyHUD
 
         [SerializeField]
         private Slider zSlider;
+
+        [SerializeField, Header("Editor上で追従する対象")]
+        private Transform debugObj;
 
         private void Start()
         {
@@ -51,10 +55,16 @@ namespace AX.EasyHUD
 
         private void LateUpdate()
         {
-            var data = Networking.LocalPlayer.GetTrackingData(trackingDataType);
+            var data = 
+#if UNITY_EDITOR
+                debugObj
+#else
+                Networking.LocalPlayer.GetTrackingData(trackingDataType)
+#endif                
+;
             var transform1 = transform;
             transform1.position = data.position + offsetVector3 + userOffsetVector3;
-            transform1.rotation = data.rotation * offsetQuaternion * userOffsetQuaternion;
+            transform1.rotation = userOffsetQuaternion * offsetQuaternion * data.rotation;
 
             if (Utilities.IsValid(_camera))
             {
