@@ -55,16 +55,24 @@ namespace AX.EasyHUD
 
         private void LateUpdate()
         {
-            var data = 
+
+            var data = Networking.LocalPlayer.GetTrackingData(trackingDataType);
+            
+            Vector3 vec3 = data.position;
+            Quaternion quat = data.rotation;
+            
 #if UNITY_EDITOR
-                debugObj
-#else
-                Networking.LocalPlayer.GetTrackingData(trackingDataType)
-#endif                
-;
+            // エディタ上でのデバッグ用
+            if (Utilities.IsValid(debugObj))
+            {
+                vec3 = debugObj.position;
+                quat = debugObj.rotation;
+            }
+#endif
+
             var transform1 = transform;
-            transform1.position = data.position + offsetVector3 + userOffsetVector3;
-            transform1.rotation = userOffsetQuaternion * offsetQuaternion * data.rotation;
+            transform1.position = vec3 + offsetVector3 + userOffsetVector3;
+            transform1.rotation = userOffsetQuaternion * offsetQuaternion * quat;
 
             if (Utilities.IsValid(_camera))
             {
