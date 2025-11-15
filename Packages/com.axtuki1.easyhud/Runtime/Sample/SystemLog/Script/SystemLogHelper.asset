@@ -21,7 +21,7 @@ MonoBehaviour:
   compiledVersion: 2
   behaviourSyncMode: 0
   hasInteractEvent: 0
-  scriptID: -1257644574578181691
+  scriptID: -6648201786136983298
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
@@ -62,7 +62,7 @@ MonoBehaviour:
       Data: 3|System.RuntimeType, mscorlib
     - Name: 
       Entry: 1
-      Data: AX.EventLogger.SystemLog, com.axtuki1.SystemLog
+      Data: AX.SystemLogger.SystemLog, com.axtuki1.SystemLog
     - Name: 
       Entry: 8
       Data: 
